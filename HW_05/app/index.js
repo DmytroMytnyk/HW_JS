@@ -1,7 +1,6 @@
 //Global array
 const USERS = [];
 const ALLOWED_OPERATIONS = [0, 1, 2, 3];
-const YEAR_INDEX = 0, YEAR_TYPE_INDEX = 1, MONTH_INDEX = 2, DAY_INDEX = 3, F_NAME_INDEX = 4, L_NAME_INDEX = 5, ZODIAC_INDEX = 6;
 const CURRENT_YEAR = 2021;
 
 //Cycles for one authorization
@@ -18,29 +17,30 @@ do {
 	switch (operation) {   
 		
     case 1: {               // User add operation 
-		let user = [];
+		let user = {};
 
       //Request the user's birthyear
   const minYear = 1900;
   const maxYear = CURRENT_YEAR;
   
   const validationMessageYear = `Put your year of birth: only numbers, min: ${minYear}, max: ${maxYear}`;
-    do {
-    user[YEAR_INDEX] = prompt(validationMessageYear)
-    if (!user[YEAR_INDEX]) {
-      (user[YEAR_INDEX] = NaN);
+    
+  do {
+    user.birthYear = prompt(validationMessageYear)
+    if (!user.birthYear) {
+      (user.birthYear = NaN);
     } else {
-      user[YEAR_INDEX] = Number(user[YEAR_INDEX]);
+      user.birthYear = Number(user.birthYear);
     }
-  } while (isNaN(user[YEAR_INDEX]) || minYear > user[YEAR_INDEX] || user[YEAR_INDEX] > maxYear);
+  } while (isNaN(user.birthYear) || minYear > user.birthYear || user.birthYear > maxYear);
   
    
     //Leap year determination
   var isLeapYear = null;
   
-  var moduleOf400 = user[YEAR_INDEX]%400 === 0;
-  var moduleOf100 = user[YEAR_INDEX]%100 === 0;
-  var moduleOf4 = user[YEAR_INDEX]%4 === 0;
+  var moduleOf400 = user.birthYear%400 === 0;
+  var moduleOf100 = user.birthYear%100 === 0;
+  var moduleOf4 = user.birthYear%4 === 0;
   
   if (moduleOf400 || (!moduleOf100 && moduleOf4)) {
     isLeapYear = true;
@@ -48,10 +48,10 @@ do {
     isLeapYear = false;
   }
   
-  if (isLeapYear) {
-    user[YEAR_TYPE_INDEX] = ' (leap year)';
+    if (isLeapYear) {
+    user.typeYear = ' (leap year)';
   } else {
-    user[YEAR_TYPE_INDEX] = '';
+    user.typeYear = '';
   }
   
     //Request the user's birthmonth
@@ -59,21 +59,22 @@ do {
   const maxMonth = 12;
   
   const validationMessageMonth = `Put your month of birth: only numbers, min: ${minMonth}, max: ${maxMonth}`;
-    do {
-    user[MONTH_INDEX] = prompt(validationMessageMonth)
-    if (!user[MONTH_INDEX]) {
-      (user[MONTH_INDEX] = NaN);
+    
+  do {
+    user.birthMonth = prompt(validationMessageMonth)
+    if (!user.birthMonth) {
+      (user.birthMonth = NaN);
     } else {
-      user[MONTH_INDEX] = Number(user[MONTH_INDEX]);
+      user.birthMonth = Number(user.birthMonth);
     }
-    } while (isNaN(user[MONTH_INDEX]) || minMonth > user[MONTH_INDEX] || user[MONTH_INDEX] > maxMonth);
+    } while (isNaN(user.birthMonth) || minMonth > user.birthMonth || user.birthMonth > maxMonth);
 
      
     //Request the user's birthday
   const minDay = 1;
   let maxDay = null;
   
-  switch (user[MONTH_INDEX]) {
+  switch (user.birthMonth) {
     case 1:
     case 3:
     case 5:
@@ -96,18 +97,19 @@ do {
   }
   
   const validationMessageDay = `Put your day of birthday: only numbers, min: ${minDay}, max: ${maxDay}`;
-    do {
-    user[DAY_INDEX] = prompt(validationMessageDay)
-    if (!user[DAY_INDEX]) {
-      (user[DAY_INDEX] = NaN);
+  
+  do {
+    user.birthDay = prompt(validationMessageDay)
+    if (!user.birthDay) {
+      (user.birthDay = NaN);
     } else {
-      user[DAY_INDEX] = Number(user[DAY_INDEX]);
+      user.birthDay = Number(user.birthDay);
     }
-    } while (isNaN(user[DAY_INDEX]) || minDay > user[DAY_INDEX] || user[DAY_INDEX] > maxDay);
+    } while (isNaN(user.birthDay) || minDay > user.birthDay || user.birthDay > maxDay);
   
     
     //Determination of age
-  var userAge = CURRENT_YEAR - user[YEAR_INDEX];
+   user.userAge = CURRENT_YEAR - user.birthYear;
   
   
     //Request the user's first name
@@ -115,54 +117,54 @@ do {
   const maxLenthName = 20;
   
   const validationMessageName = `Put your first name: min: ${minLenthName}, max: ${maxLenthName}`;
-    
+  
     do {
-      user[F_NAME_INDEX] = prompt(validationMessageName) ?? '';
-      } while (minLenthName > user[F_NAME_INDEX].trim().length || user[F_NAME_INDEX].trim().length > maxLenthName);
+      user.firstName = prompt(validationMessageName) ?? '';
+      } while (minLenthName > user.firstName.trim().length || user.firstName.trim().length > maxLenthName);
 
     //Request the user's last name
   const minLenth = 1;
   const maxLenth = 30;
   
   const validationMessageLast = `Put your last name: min: ${minLenth}, max: ${maxLenth}`;
-    
+  
     do {
-      user[L_NAME_INDEX] = prompt(validationMessageLast) ?? '';
-      } while (minLenth > user[L_NAME_INDEX].trim().length || user[L_NAME_INDEX].trim().length > maxLenth);
+      user.lastName = prompt(validationMessageLast) ?? '';
+      } while (minLenth > user.lastName.trim().length || user.lastName.trim().length > maxLenth);
 
     
     //Determination of full name
-  var fullName = user[F_NAME_INDEX] + ' ' + user[L_NAME_INDEX];
+   user.fullName = user.firstName + ' ' + user.lastName;
   
   
     //Astrological Zodiac symbol name determination
-  if (user[MONTH_INDEX]==1 && (user[DAY_INDEX]>=20 && user[DAY_INDEX]<=31) || user[MONTH_INDEX]==2 && user[DAY_INDEX]<=18) {
-    user[ZODIAC_INDEX] = 'Aquarius♒';
-  } else if (user[MONTH_INDEX]==2 && (user[DAY_INDEX]>=19 && user[DAY_INDEX]<=29) || user[MONTH_INDEX]==3 && user[DAY_INDEX]<=20) {
-    user[ZODIAC_INDEX] = 'Pisces♓';
-  } else if (user[MONTH_INDEX]==3 && (user[DAY_INDEX]>=21 && user[DAY_INDEX]<=31) || user[MONTH_INDEX]==4 && user[DAY_INDEX]<=19) {
-    user[ZODIAC_INDEX] = 'Aries♈';
-  } else if (user[MONTH_INDEX]==4 && (user[DAY_INDEX]>=20 && user[DAY_INDEX]<=30) || user[MONTH_INDEX]==5 && user[DAY_INDEX]<=20) {
-    user[ZODIAC_INDEX] = 'Taurus♉';
-  } else if (user[MONTH_INDEX]==5 && (user[DAY_INDEX]>=21 && user[DAY_INDEX]<=31) || user[MONTH_INDEX]==6 && user[DAY_INDEX]<=20) {
-    user[ZODIAC_INDEX] = 'Gemini♊';
-  } else if (user[MONTH_INDEX]==6 && (user[DAY_INDEX]>=21 && user[DAY_INDEX]<=30) || user[MONTH_INDEX]==7 && user[DAY_INDEX]<=22) {
-    user[ZODIAC_INDEX] = 'Cancer♋';
-  } else if (user[MONTH_INDEX]==7 && (user[DAY_INDEX]>=23 && user[DAY_INDEX]<=31) || user[MONTH_INDEX]==8 && user[DAY_INDEX]<=22) {
-    user[ZODIAC_INDEX] = 'Leo♌';
-  } else if (user[MONTH_INDEX]==8 && (user[DAY_INDEX]>=23 && user[DAY_INDEX]<=31) || user[MONTH_INDEX]==9 && user[DAY_INDEX]<=22) {
-    user[ZODIAC_INDEX] = 'Virgo♍';
-  } else if (user[MONTH_INDEX]==9 && (user[DAY_INDEX]>=23 && user[DAY_INDEX]<=30) || user[MONTH_INDEX]==10 && user[DAY_INDEX]<=22) {
-    user[ZODIAC_INDEX] = 'Libra♎';
-  } else if (user[MONTH_INDEX]==10 && (user[DAY_INDEX]>=23 && user[DAY_INDEX]<=31) || user[MONTH_INDEX]==11 && user[DAY_INDEX]<=21) {
-    user[ZODIAC_INDEX] = 'Scorpio♏';
-  } else if (user[MONTH_INDEX]==11 && (user[DAY_INDEX]>=22 && user[DAY_INDEX]<=30) || user[MONTH_INDEX]==12 && user[DAY_INDEX]<=21) {
-    user[ZODIAC_INDEX] = 'Sagittarius♐';
-  } else if (user[MONTH_INDEX]==12 && (user[DAY_INDEX]>=22 && user[DAY_INDEX]<=31) || user[MONTH_INDEX]==1 && user[DAY_INDEX]<=19) {
-    user[ZODIAC_INDEX] = 'Capricorn♑';
-  } else {
-    console.log("Incorrect date of birth!");
-  } 
+    if (user.birthMonth==1 && (user.birthDay>=20 && user.birthDay<=31) || user.birthMonth==2 && user.birthDay<=18) {
+      var zodiacSymbol = 'Aquarius♒';
+    } else if (user.birthMonth==2 && (user.birthDay>=19 && user.birthDay<=29) || user.birthMonth==3 && user.birthDay<=20) {
+      var zodiacSymbol = 'Pisces♓';
+    } else if (user.birthMonth==3 && (user.birthDay>=21 && user.birthDay<=31) || user.birthMonth==4 && user.birthDay<=19) {
+      var zodiacSymbol = 'Aries♈';
+    } else if (user.birthMonth==4 && (user.birthDay>=20 && user.birthDay<=30) || user.birthMonth==5 && user.birthDay<=20) {
+      var zodiacSymbol = 'Taurus♉';
+    } else if (user.birthMonth==5 && (user.birthDay>=21 && user.birthDay<=31) || user.birthMonth==6 && user.birthDay<=20) {
+      var zodiacSymbol = 'Gemini♊';
+    } else if (user.birthMonth==6 && (user.birthDay>=21 && user.birthDay<=30) || user.birthMonth==7 && user.birthDay<=22) {
+      var zodiacSymbol = 'Cancer♋';
+    } else if (user.birthMonth==7 && (user.birthDay>=23 && user.birthDay<=31) || user.birthMonth==8 && user.birthDay<=22) {
+      var zodiacSymbol = 'Leo♌';
+    } else if (user.birthMonth==8 && (user.birthDay>=23 && user.birthDay<=31) || user.birthMonth==9 && user.birthDay<=22) {
+      var zodiacSymbol = 'Virgo♍';
+    } else if (user.birthMonth==9 && (user.birthDay>=23 && user.birthDay<=30) || user.birthMonth==10 && user.birthDay<=22){
+      var zodiacSymbol = 'Libra♎';
+    } else if (user.birthMonth==10 && (user.birthDay>=23 && user.birthDay<=31) || user.birthMonth==11 && user.birthDay<=21) {
+      var zodiacSymbol = 'Scorpio♏';
+    } else if (user.birthMonth==11 && (user.birthDay>=22 && user.birthDay<=30) || user.birthMonth==12 && user.birthDay<=21) {
+      var zodiacSymbol = 'Sagittarius♐';
+    } else if (user.birthMonth==12 && (user.birthDay>=22 && user.birthDay<=31) || user.birthMonth==1 && user.birthDay<=19){
+      var zodiacSymbol = 'Capricorn♑';
+    } else {
+      console.log("Incorrect date of birth!");
+    } 
   
     //Adding a user to global array
   USERS.push(user);
@@ -179,12 +181,10 @@ case 2: {             //User delete operation
     break;
   }
 
-  const minIndex = 0;
-  const maxIndex = USERS.length - 1;
-do {
-    indexToDeleteUser = parseInt(prompt(`Enter the number of the user you want to delete, min: ${minIndex}, max: ${maxIndex}`));
-  } while(indexToDeleteUser < 0 || indexToDeleteUser > maxIndex || isNaN(indexToDeleteUser));
-
+    do {
+    indexToDeleteUser = +prompt(`Enter the number of the user you want to delete, min: 0, max: ${USERS.length-1}`);
+  } while(indexToDeleteUser < 0 || indexToDeleteUser > `${(USERS.length-1)+1}` || indexToDeleteUser === null || isNaN(indexToDeleteUser));
+  
   let deletedUser = USERS.splice(indexToDeleteUser, 1);
   console.log(`User ${deletedUser} deleted successfully`)
   console.log(`There are ${USERS.length} users more in the archive`)
@@ -192,10 +192,10 @@ do {
   break;
 }
 
-  case 3: {              //User show operation
+  case 3: {              //User show operation  ${deletedUser}
     console.log('List of all users:')
     for (const user of USERS) {
-        console.log(user);
+        console.log('User: ' + user.fullName + ', ' + user.userAge + ' years old' + user.typeYear + ', ' + zodiacSymbol + ';');
   }
 
   break;
