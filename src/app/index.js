@@ -1,6 +1,7 @@
 const currentYear = 2021;
 
 var birthYear = prompt('When is your birth year?', 1986);
+
 birthYear = Number(birthYear);
 
 var userAge = currentYear - birthYear;
