@@ -100,8 +100,7 @@ const userFabric = function (firstName, lastName, birthYear, birthMonth, birthDa
 // Fabric function for creating archive users
 const archiveFabric = function () {
 	const entries = [];
-	const accounts = [];
-	return {
+		return {
 		add(item) {
 			entries.push(item);
 		},
@@ -133,20 +132,3 @@ const archiveFabric = function () {
 	}
 }
 
-//Fabric function for creating user's account
-// const accountFabric = function () {
-// 	const accounts = [];
-
-// 	return {
-// 		signIn() {
-// 			return account;
-// 		},
-// 		getByEmail(email) {
-// 			const account = this.accounts.find((account) => account.email === email);
-// 			return account;
-// 		},
-// 		signUp() {
-//     	accounts.push(item);
-// 		},
-// 	}
-// }

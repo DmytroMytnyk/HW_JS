@@ -1,10 +1,3 @@
-// Admin = [
-// 	['WRITE', 'READ']
-// ],
-// Guest = [
-// 	['READ']
-// ]
-
 class Account {
 	constructor (email, password, firstName, lastName) {
 	this.email = email;
@@ -12,20 +5,24 @@ class Account {
 	this.firstName = firstName;
 	this.lastName = lastName;
 	}
+	get fullName() {
+		return `${this.firstName} ${this.lastName}`
+	}
 }
 
 class AdminAccount extends Account {
-	constructor(email, password, firstName, lastName, type, permission =[]) {
+	constructor(email, password, firstName, lastName) {
 	super(email, password, firstName, lastName);
-	type = 'Admin'
-	permission = ['READ', 'WRITE']
-  }
+	  this.type = 'Admin';
+		this.permission = ['READ', 'WRITE'];
+	}
 }
+
 class GuestAccount extends Account {
-	constructor(email, password, firstName, lastName, type, permission =[]) {
+	constructor(email, password, firstName, lastName) {
 	super(email, password, firstName, lastName);
-	type ='Gueest'
-	permission = ['READ']
+	  this.type = 'Guest';
+		this.permission = ['READ'];
   }
 }
 
@@ -52,11 +49,11 @@ const AUTHENTICATION = {
 	    return minPassword > input.trim().length;
 		};
 		const password = STDIN.getStringInput(`Put your password: min signs: ${minPassword}`, validationPassword);
-debugger
-		const user = this.getByEmail(email);
+
+		const account = this.getByEmail(email);
 		
-		if (user) {
-			return user;
+		if (account) {
+			return new GuestAccount(email, password);;
 		}
 
 		if (confirm('Do you want to sign up?')) {
@@ -66,17 +63,18 @@ debugger
 		return null;
 
 	},
+
 	getByEmail(email) {
-		const user = this.accounts.find((user) => user.email === email);
-		return user;
+		const account = this.accounts.find((account) => account.email === email);
+		return account;
 	},
 
 	signUp() {
 		const minEmail = 5; 
 		const validationEmail = function(input) {
-			// let isUniq = true;
-			// this.accounts.forEach((user)=>{if (input === user.email){isUniq = false}})
-			return minEmail > input.trim().length || !input.includes('@')/*|| !isUniq*/ /*|| this.accounts.includes(input)*/;
+					//let isUniq = true;
+			//this.accounts.forEach((account)=>{if (input === account.email){isUniq = false}})
+			return minEmail > input.trim().length || !input.includes('@')/*|| !isUniq*/ /*|| this.account.includes(input)*/;
     };
 		const email = STDIN.getStringInput(`Put your email: min signs: ${minEmail}`, validationEmail);
 		
@@ -86,12 +84,29 @@ debugger
 		};
 		const password = STDIN.getStringInput(`Put your password: min signs: ${minPassword}`, validationPassword);
 
-		return new GuestAccount();
+		const minFirstAccount = 1;
+		const maxFirstAccount = 20;
+		const validationFirstAccount = function(input) {
+	    return minFirstAccount > input.trim().length || input.trim().length > maxFirstAccount;
+    };
+		const firstNameAccount = STDIN.getStringInput(`Put your first name: min signs: ${minFirstAccount}, max signs: ${maxFirstAccount}`, validationFirstAccount);
+
+		const minLastAccount = 1;
+		const maxLastAccount = 30;
+		const validationLastAccount = function(input) {
+	    return minLastAccount > input.trim().length || input.trim().length > maxLastAccount;
+    };
+		const lastNameAccount = STDIN.getStringInput(`Put your last name: min signs: ${minLastAccount}, max signs: ${maxLastAccount}`, validationLastAccount);
+		
+		const account = new GuestAccount(email,password,firstNameAccount,lastNameAccount);
+		
+		this.accounts.add(account);
+		return account;
 	},
-}
+ }
 
 const APPLICATION  = {
-	accounts: null,
+	account: null,
 	archive: archiveFabric(),
 	OPERATIONS: [
 		['Add user', 'addUser'],
@@ -106,7 +121,7 @@ const APPLICATION  = {
 	
 		begin() {
 			this.account = AUTHENTICATION.signIn();
-		do {
+		 	do {
 			const operationIndex = this.getOperation();
 			this.runOperation(operationIndex)
 		} while (confirm('Do you want to continue?'));
@@ -115,34 +130,36 @@ const APPLICATION  = {
 	},
 
 	getOperation() {
-		const permission = this.account.permission;
-		switch (permission) {
-			case 'WRITE':
-				return OPERATIONS = [
-					['Add user', 'addUser'],
-					['Delete user', 'deleteUser'],
-					['Find user', 'findUser'],
-					['Filter user by name', 'filterUser'],
-					['Iterate users by index', 'eachUser'],
-					['Show some users', 'takeUser'],
-					['Is archive empty?', 'isEmpty'],
-					['Number of users', 'countUser'],
-				]	           
-			case 'READ':
-				return 	OPERATIONS = [
-					['Find user', 'findUser'],
-					['Filter user by name', 'filterUser'],
-					['Iterate users by index', 'eachUser'],
-					['Show some users', 'takeUser'],
-					['Is archive empty?', 'isEmpty'],
-					['Number of users', 'countUser'],
-				]               
-		};
-		
+		const permissionAccount = this.account.permission;
+		for (let permit of permissionAccount) {
+			if (permit ==='WRITE') {
+				OPERATIONS = [
+				['Add user', 'addUser'],
+				['Delete user', 'deleteUser'],
+				['Find user', 'findUser'],
+				['Filter user by name', 'filterUser'],
+				['Iterate users by index', 'eachUser'],
+				['Show some users', 'takeUser'],
+				['Is archive empty?', 'isEmpty'],
+				['Number of users', 'countUser'],
+			]	           
+		}
+		if (permit ==='READ') {
+				OPERATIONS = [
+				['Find user', 'findUser'],
+				['Filter user by name', 'filterUser'],
+				['Iterate users by index', 'eachUser'],
+				['Show some users', 'takeUser'],
+				['Is archive empty?', 'isEmpty'],
+				['Number of users', 'countUser'],
+			]               
+		}
+	}
 		const minNumberOper = 0;
+		debugger
 		const maxNumberOper = this.OPERATIONS.length-1;
 		const validationOperation = function(input) {
-	    return minNumberOper > input.length || input.length > maxNumberOper ;
+	    return minNumberOper > input.length || input.length > maxNumberOper;
     };
 
 		const right = function(item, i){
