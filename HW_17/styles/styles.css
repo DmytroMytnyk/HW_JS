@@ -1,0 +1,77 @@
+body {
+  background-image: url('../media/texture.gif');
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: calc(100vh - 50px);
+  padding: 15px;
+  flex-direction: column;
+}
+
+.play-window {
+  position: relative;
+  display: flex;
+  border: 4px black solid;
+  flex-wrap: wrap;
+  max-width: 520px;
+  max-height: 520px;
+  background-color: gray;
+}
+
+.square {
+  position: relative;
+  height: 100px;
+  width: 100px;
+  border: 1px solid black;
+  margin: 1px;
+}
+
+.square:hover {
+  background-color: yellow;
+}
+
+.square-bomb {
+  background-color: red;
+}
+
+.square-save {
+  background-color: green;
+}
+
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.popup__body {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 10px;
+  cursor: pointer;
+}
+
+.popup__content {
+  background: #fff;
+  max-width: 300px;
+  padding: 30px;
+  position: relative;
+  content: "💣";
+}
+
+.end-game-popup {
+  text-align: center;
+}
+
+.game-info {
+  font-size: 50px;
+  padding: 15px;
+}
