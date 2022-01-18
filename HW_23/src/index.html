@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>HW-23: Webpack</title>
+	<script type="module" src="./utils.js" ></script>
+	<script defer src="./index.js"></script>
+	<script defer src="../dist/bundle.js"></script>
+</head>
+<body>
+	<div id="root">
+		<section>
+			<p>default user: admin@example.com/admin</p>
+			<form name="login">
+				<label>
+					Email
+					<input name="email" type="text" placeholder="Enter your email"/>
+				</label>
+				<label>
+					Password
+					<input name="password" type="password" placeholder="Enter your password"/>
+				</label>
+				<label>
+					Remember me
+					<input type="checkbox" name="remember">
+				</label>
+				<button id="submitBtn" disabled>Login</button>
+			</form>
+		</section>
+		<section hidden>
+			<h2>User: <span></span></h2>
+		</section>
+	</div>
+</body>
+</html>
